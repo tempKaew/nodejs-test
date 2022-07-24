@@ -1,4 +1,13 @@
 # nodejs-test
+## Steps to Setup
+1. Install dependencies
+```
+npm install
+```
+2. Run Server
+```
+npm start
+```
 
 ## Logic test
 - [แสดงข้อมูลทั้งหมด](https://nodejs-test-one.vercel.app/logic-test/)
