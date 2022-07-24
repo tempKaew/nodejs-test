@@ -31,7 +31,7 @@ curl --location --request GET 'https://nodejs-test-one.vercel.app/api/product/' 
 curl --location --request GET 'https://nodejs-test-one.vercel.app/api/product/1' \
 --header 'Accept: application/json'
 ```
-- product update ==vercel host ไม่สามารเปลี่ยนแปลงข้อมูล json ได้==
+- product update `vercel host ไม่สามารเปลี่ยนแปลงข้อมูล json ได้`
 ```curl
 curl --location --request PUT 'https://nodejs-test-one.vercel.app/api/product/1' \
 --header 'Accept: application/json' \
@@ -48,7 +48,7 @@ curl --location --request PUT 'https://nodejs-test-one.vercel.app/api/product/1'
     "thumbnail":"https://dummyjson.com/image/i/products/2/thumbnail.jpg"
 }'
 ```
-- product create ==vercel host ไม่สามารเปลี่ยนแปลงข้อมูล json ได้==
+- product create `vercel host ไม่สามารเปลี่ยนแปลงข้อมูล json ได้`
 ```curl
 curl --location --request POST 'https://nodejs-test-one.vercel.app/api/product/create' \
 --header 'Accept: application/json' \
@@ -65,7 +65,7 @@ curl --location --request POST 'https://nodejs-test-one.vercel.app/api/product/c
     "thumbnail":"https://dummyjson.com/image/i/products/2/thumbnail.jpg"
 }'
 ```
-- product delete ==vercel host ไม่สามารเปลี่ยนแปลงข้อมูล json ได้==
+- product delete `vercel host ไม่สามารเปลี่ยนแปลงข้อมูล json ได้`
 ```curl
 curl --location --request DELETE 'https://nodejs-test-one.vercel.app/api/product/1' \
 --header 'Accept: application/json'
