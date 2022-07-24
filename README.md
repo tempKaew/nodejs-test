@@ -22,3 +22,42 @@ curl --location --request GET 'https://nodejs-test-one.vercel.app/api/product/' 
 curl --location --request GET 'https://nodejs-test-one.vercel.app/api/product/1' \
 --header 'Accept: application/json'
 ```
+- product update
+```curl
+curl --location --request PUT 'https://nodejs-test-one.vercel.app/api/product/1' \
+--header 'Accept: application/json' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "title":"test",
+    "description": "update description",
+    "price":"789",
+    "discountPercentage":"10",
+    "rating":"4.5",
+    "stock":"99",
+    "brand":"mi",
+    "category":"smartphones",
+    "thumbnail":"https://dummyjson.com/image/i/products/2/thumbnail.jpg"
+}'
+```
+- product create
+```curl
+curl --location --request POST 'https://nodejs-test-one.vercel.app/api/product/create' \
+--header 'Accept: application/json' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "title":"test",
+    "description": "update description",
+    "price":"789",
+    "discountPercentage":"10",
+    "rating":"4.5",
+    "stock":"99",
+    "brand":"mi",
+    "category":"smartphones",
+    "thumbnail":"https://dummyjson.com/image/i/products/2/thumbnail.jpg"
+}'
+```
+- product delete
+```curl
+curl --location --request DELETE 'https://nodejs-test-one.vercel.app/api/product/1' \
+--header 'Accept: application/json'
+```
