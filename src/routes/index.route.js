@@ -13,4 +13,7 @@ router.get('/coffee-cup', (req, res) => {
 const logicTest = require('./logic-test.route')
 router.use('/logic-test',logicTest)
 
+const refactore = require('./refactore.route')
+router.use('/refactore',refactore)
+
 module.exports = router;
