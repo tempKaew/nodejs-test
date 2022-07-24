@@ -1,7 +1,19 @@
 let users = [
   {
-    name: 'Smochai',
+    name: 'Somchai',
     surname: 'Thomson',
+    gender: 'M',
+    birthDate: '1/1/1900'
+  },
+  {
+    name: 'Thomson',
+    surname: 'Somchai',
+    gender: 'M',
+    birthDate: '1/1/1900'
+  },
+  {
+    name: 'Thomson',
+    surname: 'Newman',
     gender: 'M',
     birthDate: '1/1/1900'
   },
@@ -25,11 +37,43 @@ let users = [
   },
   {
     name: 'Thomson',
+    surname: 'Ko',
+    gender: 'M',
+    birthDate: '16/1/1928'
+  },
+  {
+    name: 'Samantha',
     surname: 'Eve',
     gender: 'M',
     birthDate: '16/1/1928'
+  },
+  {
+    name: 'Pop',
+    surname: 'Joy',
+    gender: 'M',
+    birthDate: '16/1/1928'
+  },
+  {
+    name: 'Paula',
+    surname: 'Od',
+    gender: 'F',
+    birthDate: '9/1/1928'
+  },
+  {
+    name: 'Al',
+    surname: 'Joy',
+    gender: 'M',
+    birthDate: '16/1/1928'
+  },
+  {
+    name: 'Mo',
+    surname: 'Joy',
+    gender: 'F',
+    birthDate: '16/1/1928'
   }
 ]
+
+const monthReplace = ['','A','B','C','D','E','H','L','M','P','R','S','T']
 
 const generate = function(req, res) {
   let name = req.query.name
@@ -45,8 +89,10 @@ const generate = function(req, res) {
   ) {
     let usersMap = users.map(user => {
       return {
-        ...user,
-        'generateCode': generateCode(user.name, user.surname, user.gender, user.birthDate)
+        ...user
+        ,'info': '---surname-name-gender-birthdate---'
+        ,'generateCode': generateCode(user.name, user.surname, user.gender, user.birthDate)
+        ,'info2': '---name-surname-gender-birthdate---'
         ,'generateCode-2': generateCode2(user.name, user.surname, user.gender, user.birthDate)
         ,'source': '--------'
         ,'generateName' : generateName(user.name)
@@ -89,10 +135,22 @@ const generateName = function(_name) {
   }
   const nameCons = _name.replace(/[aeiou]/gi,'')
   const nameVowel = _name.replace(/[^aeiou]/gi,'')
-  if (nameCons.length==limitStr) {
-    return nameCons.substring(0, 3);
+  if (nameCons.length>limitStr) {
+    return nameCons.substring(0, 1) + nameCons.substring(limitStr-1, limitStr) + nameCons.substring(limitStr, limitStr+1);
   }
-  return _name
+  else if (nameCons.length==limitStr) {
+    return nameCons.substring(0, limitStr);
+  }
+  else if(nameCons.length>0){
+    const vowelRequire = limitStr - nameCons.length
+    const srtAdd = vowelRequire - nameVowel.length
+    let stringAdd = ''
+    for (let index = 0; index < srtAdd; index++) {
+      stringAdd = stringAdd+stringX
+    }
+    return nameCons + nameVowel.substring(0, vowelRequire) + stringAdd
+  }
+  return stringXAdd
 }
 
 const generateSurname = function(_surname) {
@@ -110,7 +168,8 @@ const generateSurname = function(_surname) {
   const surnameVowel = _surname.replace(/[^aeiou]/gi,'')
   if (surnameCons.length>=limitStr) {
     return surnameCons.substring(0, 3);
-  }else if(surnameCons.length>0){
+  }
+  else if(surnameCons.length>0){
     const vowelRequire = limitStr - surnameCons.length
     const srtAdd = vowelRequire - surnameVowel.length
     let stringAdd = ''
@@ -123,7 +182,15 @@ const generateSurname = function(_surname) {
 }
 
 const generateCodeDate = function(_gender, _birthDate ) {
-  return _gender
+  let date = _birthDate.substring(0, _birthDate.indexOf("/"));
+  const month = _birthDate.substring(_birthDate.indexOf("/") + 1, _birthDate.lastIndexOf("/"));
+  const year = _birthDate.substring(_birthDate.lastIndexOf("/") + 3, _birthDate.length);
+  let monthCode = typeof monthReplace[month] !== 'undefined' ? monthReplace[month] : 'error'
+  let formattedDate = ("0" + date).slice(-2);
+  if (_gender == 'F' && formattedDate) {
+    formattedDate = +formattedDate+40
+  }
+  return year + monthCode + formattedDate
 }
 
 module.exports = {
