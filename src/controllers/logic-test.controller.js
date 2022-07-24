@@ -18,6 +18,18 @@ let users = [
     birthDate: '1/1/1900'
   },
   {
+    name: '',
+    surname: 'Newman',
+    gender: 'f',
+    birthDate: '1/1/1900'
+  },
+  {
+    name: 'a99',
+    surname: 'Newman',
+    gender: 'K',
+    birthDate: '1/13/1900'
+  },
+  {
     name: 'Helen',
     surname: 'Yu',
     gender: 'F',
@@ -88,16 +100,28 @@ const generate = function(req, res) {
     && !birthDate
   ) {
     let usersMap = users.map(user => {
-      return {
-        ...user
-        ,'info': '---surname-name-gender-birthdate---'
-        ,'generateCode': generateCode(user.name, user.surname, user.gender, user.birthDate)
-        ,'info2': '---name-surname-gender-birthdate---'
-        ,'generateCode-2': generateCode2(user.name, user.surname, user.gender, user.birthDate)
-        ,'source': '--------'
-        ,'generateName' : generateName(user.name)
-        ,'generateSurname' : generateSurname(user.surname)
-        ,'generateCodeDate' : generateCodeDate(user.gender, user.birthDate)
+      let checkValidation = validation(user.name, user.surname, user.gender, user.birthDate)
+      if (
+        checkValidation.length
+      ) {
+        return {
+          ...user
+          ,'error': checkValidation
+        }
+      }else{
+        return {
+          ...user
+          ,'info': '---generateSurname(surname)-generateName(name)-gender-birthdate---'
+          ,'generateCode': generateCode(user.name, user.surname, user.gender, user.birthDate)
+          ,'generateSurname(surname)' : generateSurname(user.surname)
+          ,'generateName(name)' : generateName(user.name)
+          ,'generateCodeDate -1' : generateCodeDate(user.gender, user.birthDate)
+          ,'info2': '---generateName(surname)-generateSurname(name)-gender-birthdate---'
+          ,'generateCode-2': generateCode2(user.name, user.surname, user.gender, user.birthDate)
+          ,'generateName(surname)' : generateName(user.surname)
+          ,'generateSurname(name)' : generateSurname(user.name)
+          ,'generateCodeDate -2' : generateCodeDate(user.gender, user.birthDate)
+        }
       }
     })
     res.json(usersMap);
@@ -106,8 +130,30 @@ const generate = function(req, res) {
       name: name,
       surname: surname,
       gender: gender,
-      birthDate: birthDate,
-      generateCode: generateCode(name, surname, gender, birthDate)
+      birthDate: birthDate
+    }
+    let checkValidation = validation(name, surname, gender, birthDate)
+    if (
+      checkValidation.length
+    ) {
+      response = {
+        ...response
+        ,'error': checkValidation
+      }
+    }else{
+      response = {
+        ...response
+        ,'info': '---generateSurname(surname)-generateName(name)-gender-birthdate---'
+        ,'generateCode': generateCode(name, surname, gender, birthDate)
+        ,'generateSurname(surname)' : generateSurname(surname)
+        ,'generateName(name)' : generateName(name)
+        ,'generateCodeDate -1' : generateCodeDate(gender, birthDate)
+        ,'info2': '---generateName(surname)-generateSurname(name)-gender-birthdate---'
+        ,'generateCode-2': generateCode2(name, surname, gender, birthDate)
+        ,'generateName(surname)' : generateName(surname)
+        ,'generateSurname(name)' : generateSurname(name)
+        ,'generateCodeDate -2' : generateCodeDate(gender, birthDate)
+      }
     }
     res.json(response);
   }
@@ -120,6 +166,39 @@ const generateCode = function(_name, _surname, _gender, _birthDate) {
 const generateCode2 = function(_name, _surname, _gender, _birthDate) {
   let code = generateName(_surname) + generateSurname(_name) + generateCodeDate(_gender, _birthDate)
   return code
+}
+
+const validation = function(_name, _surname, _gender, _birthDate) {
+  let error = []
+  if (
+    !_name
+    || _name == ''
+    || _name.match(/[^a-zA-Z]+/)
+  ) {
+    error.push('name only string a-z')
+  }
+  if (
+    !_surname
+    || _surname == ''
+    || _surname.match(/[^a-zA-Z]+/)
+  ) {
+    error.push('surname only string a-z')
+  }
+  if (
+    !_gender
+    || _gender == ''
+    || ( _gender != 'M' && _gender != 'F')
+  ) {
+    error.push('gender only string M,F')
+  }
+  if (
+    !_birthDate
+    || _birthDate == ''
+    || _birthDate.search(/^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/)
+  ) {
+    error.push('birthDate format D/M/YYYY')
+  }
+  return error
 }
 
 const generateName = function(_name) {
