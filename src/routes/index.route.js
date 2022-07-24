@@ -16,4 +16,7 @@ router.use('/logic-test',logicTest)
 const refactore = require('./refactore.route')
 router.use('/refactore',refactore)
 
+const product = require('./product.route')
+router.use('/api/product', product)
+
 module.exports = router;

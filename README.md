@@ -8,3 +8,10 @@
 ## Coffee cup
 - [coffee-cup](https://nodejs-test-one.vercel.app/coffee-cup)
 - [code coffee-cup.html](https://github.com/tempKaew/nodejs-test/blob/main/src/view/coffee-cup.html)
+
+## API Product
+- product list [#link get](https://nodejs-test-one.vercel.app/api/product)
+```cURL Config
+curl --location --request GET 'http://localhost:8081/api/product/' \
+--header 'Accept: application/json'
+```

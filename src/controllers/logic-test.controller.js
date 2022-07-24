@@ -124,7 +124,7 @@ const generate = function(req, res) {
         }
       }
     })
-    res.json(usersMap);
+    return res.json(usersMap);
   }else{
     let response = {
       name: name,
@@ -155,7 +155,7 @@ const generate = function(req, res) {
         ,'generateCodeDate -2' : generateCodeDate(gender, birthDate)
       }
     }
-    res.json(response);
+    return res.json(response);
   }
 }
 
