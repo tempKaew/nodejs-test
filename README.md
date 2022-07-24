@@ -11,7 +11,12 @@
 
 ## API Product
 - product list [#link get](https://nodejs-test-one.vercel.app/api/product)
-```cURL Config
-curl --location --request GET 'http://localhost:8081/api/product/' \
+```curl
+curl --location --request GET 'https://nodejs-test-one.vercel.app/api/product/' \
+--header 'Accept: application/json'
+```
+- product view by id [#link get](https://nodejs-test-one.vercel.app/api/product/1)
+```curl
+curl --location --request GET 'https://nodejs-test-one.vercel.app/api/product/1' \
 --header 'Accept: application/json'
 ```
