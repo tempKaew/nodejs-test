@@ -10,6 +10,8 @@
 - [code coffee-cup.html](https://github.com/tempKaew/nodejs-test/blob/main/src/view/coffee-cup.html)
 
 ## API Product
+- [code product.controller.js](https://github.com/tempKaew/nodejs-test/blob/main/src/controllers/product.controller.js)
+- [code product.route.js](https://github.com/tempKaew/nodejs-test/blob/main/src/routes/product.route.js)
 - product list [#link get](https://nodejs-test-one.vercel.app/api/product)
 ```curl
 curl --location --request GET 'https://nodejs-test-one.vercel.app/api/product/' \
