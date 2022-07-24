@@ -16,6 +16,7 @@ npm start
 
 ## Refactor code
 - [code refactore.controller.js](https://github.com/tempKaew/nodejs-test/blob/main/src/controllers/refactore.controller.js)
+- [refactore url response](https://nodejs-test-one.vercel.app/refactore)
 
 ## Coffee cup
 - [coffee-cup](https://nodejs-test-one.vercel.app/coffee-cup)
