@@ -3,14 +3,8 @@ const path = require('path');
 const dataPath = path.join(process.cwd()+'/lib/data.json');
 
 const productList = (req, res) => {
-  fs.readFile(dataPath, 'utf-8', (err, products) => {
-    if (err) {
-      res.json({
-        'error': true
-      })
-    }
-    return res.json(JSON.parse(products));
-  });
+  const products = getFileJson()
+  return res.json(products)
 };
 
 const productView = (req, res) => {
@@ -21,22 +15,15 @@ const productView = (req, res) => {
       'message': 'id undefined'
     })
   }
-  fs.readFile(dataPath, 'utf-8', (err, products) => {
-    if (err) {
-      return res.json({
-        'error': true,
-      })
-    }
-    products = JSON.parse(products)
-    const product = products.filter( product => product.id === id )
-    if (product.length==0) {
-      return res.json({
-        'error': true,
-        'message': 'id not exist'
-      })
-    }
-    return res.json(product);
-  });
+  const products = getFileJson()
+  const product = products.filter( product => product.id === id )
+  if (product.length==0) {
+    return res.json({
+      'error': true,
+      'message': 'id not exist'
+    })
+  }
+  return res.json(product);
 }
 
 const productCreate = (req, res) => {
@@ -57,8 +44,22 @@ const productCreate = (req, res) => {
       'message': hasError
     });
   }
+  let existProducts = getFileJson()
+  const newProductId = existProducts[existProducts.length-1].id + 1
+  existProducts.push({
+    "id": newProductId,
+    "title": req.body.title,
+    "description": req.body.description,
+    "price": req.body.price,
+    "discountPercentage": req.body.discountPercentage,
+    "rating": req.body.rating,
+    "stock": req.body.stock,
+    "brand": req.body.brand,
+    "category": req.body.category,
+    "thumbnail": req.body.thumbnail
+  })
   return res.json({
-    'error': false
+    'created': saveFileJson(existProducts)
   });
 }
 
@@ -89,13 +90,45 @@ const productUpdate = (req, res) => {
     });
   }
 
+  let products = getFileJson()
+  const filterProducts = products.filter( product => product.id !== id )
+  filterProducts.push({
+    "id": id,
+    "title": req.body.title,
+    "description": req.body.description,
+    "price": req.body.price,
+    "discountPercentage": req.body.discountPercentage,
+    "rating": req.body.rating,
+    "stock": req.body.stock,
+    "brand": req.body.brand,
+    "category": req.body.category,
+    "thumbnail": req.body.thumbnail
+  })
   return res.json({
-    'error': false
+    'updated': saveFileJson(filterProducts)
   });
 }
 
 const productDelete = (req, res) => {
-
+  const id = +req.params.id
+  if (!id) {
+    return res.json({
+      'error': true,
+      'message': 'id undefined'
+    })
+  }
+  const products = getFileJson()
+  const product = products.filter( product => product.id === id )
+  if (product.length==0) {
+    return res.json({
+      'error': true,
+      'message': 'id not exist'
+    })
+  }
+  const filterProducts = products.filter( product => product.id !== id )
+  return res.json({
+    'deleted': saveFileJson(filterProducts)
+  });
 }
 
 const validation = (
@@ -168,9 +201,29 @@ const validation = (
   return error
 }
 
+const saveFileJson = (data) => {
+  const stringifyData = JSON.stringify(data)
+  try {
+    fs.writeFileSync(dataPath, stringifyData)
+    return true
+  }catch(err){
+    return false
+  }
+}
+
+const getFileJson = () => {
+  try {
+    const jsonData = fs.readFileSync(dataPath)
+    return JSON.parse(jsonData) 
+  }catch(err){
+    return []
+  }
+}
+
 module.exports = {
   productList,
   productView,
   productUpdate,
-  productCreate
+  productCreate,
+  productDelete
 };

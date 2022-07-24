@@ -6,6 +6,7 @@ var jsonParser = bodyParser.json()
 const Product = require('./../controllers/product.controller')
 router.get('/', Product.productList)
 router.get('/:id', Product.productView)
+router.delete('/:id', Product.productDelete)
 router.put('/:id', jsonParser, Product.productUpdate)
 router.post('/create', jsonParser, Product.productCreate)
 
